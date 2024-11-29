@@ -1,0 +1,228 @@
+<div class="parent">
+  <div class="container full-height">
+    <header class="header">
+        <div class="left-side">
+            <img src="assets/logo.png" alt="Logo" class="logo" />
+        </div>
+        <div class="middle-side">
+            <div class="title1">
+                Processus Commercial
+            </div>
+            <div class="title2">
+                Bon de Commande
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="w-100 flex flex-row">
+                <div class="text-left" style="width:180px;">
+                    <label class="w-100" for="reference">Référence :</label>
+                </div>
+                <div class="w-100 text-right">
+                    <input id="reference" class="text-right" [ngClass]="{ 'invalid-input': isReferenceInvalid }" type="text" placeholder="Référence" [(ngModel)]="reference" />
+                </div>
+            </div>
+            <div class="w-100 flex flex-row">
+                <div class="text-left" style="width:180px;">
+                    <label class="w-100" for="indice">Indice :</label>
+                </div>
+                <div class="w-100 text-right">
+                    <input id="indice" class="text-right" [ngClass]="{ 'invalid-input': isIndiceInvalid }"  type="text" placeholder="Indice" [(ngModel)]="indice" />
+                </div>
+            </div>
+            <div class="w-100 flex flex-row">
+                <div class="text-left" style="width:180px;">
+                    <label class="w-100" for="datetime">Date :</label>
+                </div>
+                <div class="w-100 text-right">
+                    <input id="datetime"  class="text-right" [ngClass]="{ 'invalid-input': isDateTimeInvalid }" type="datetime-local" [(ngModel)]="dateTime" />
+                </div>
+
+            </div>
+        </div>
+        
+    </header>
+    <div class="sub-header">
+        <div style="" class="w-100 flex justify-content-around">
+            <div class="bordered " style="padding:10px;">
+                <div class="flex">
+                    <div style="width:80px;">
+                        <label for="numero">Numéro :</label>
+                    </div>
+                    <div>
+                        <input id="numero" class="text-left" [ngClass]="{ 'invalid-input': isNumeroInvalid }" type="text" placeholder="Numéro" [(ngModel)]="numero" />
+                    </div>
+                </div>
+                <div >
+                    <label for="date2">Date :</label>
+                    <input id="date2" class="text-right" [ngClass]="{ 'invalid-input': isDateTime2Invalid }" type="datetime-local" placeholder="Date" [(ngModel)]="dateTime2" />
+                    <!-- <div>{{formatDateTime2(dateTime2,false)}}</div> -->
+                </div>
+            </div>
+            <div class="bordered" style="padding:10px;">
+                <div style="width:80px;">
+                    <label for="client">Client :</label>
+                </div>
+                <div>
+                    <input id="client" class="text-left" [ngClass]="{ 'invalid-input': isClientInvalid }" type="text" placeholder="Client" [(ngModel)]="client"  />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-container">
+        <div class="crud-table">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Désignation</th>
+                        <th colspan="2" style="width:120px;">Dimension(mm)</th>
+                        <th rowspan="2" style="width:60px;">M2</th>
+                        <th rowspan="2" style="width:70px;">Prix m2</th>
+                        <th rowspan="2" style="width:40px;">Qte</th>
+                        <th rowspan="2" style="width:50px;">Remise (%)</th>
+                        <th rowspan="2" style="width:70px;">P.U</th>
+                        <th rowspan="2" style="width:70px;">Montant H.T</th>
+                        <th rowspan="2" style="width:40px;">-</th>
+                    </tr>
+                    <tr>
+                        
+                        <th style="width:60px;">Hauteur</th>
+                        <th style="width:60px;">Largeur</th>
+                        
+                    </tr>
+                </thead>
+                <!-- <tbody>
+                    {{items}}
+                </tbody> -->
+                <tbody>
+                    <tr *ngFor="let item of items; let i = index">
+                        <td>
+                            <div class="w-100 overflow-hidden" >
+
+                                <input [(ngModel)]="item.description" class="w-100 p-0 text-left no-borders" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-100 overflow-hidden" >
+
+                                <input [(ngModel)]="item.hauteur" class="w-100 p-0 text-center no-borders" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-100 overflow-hidden" >
+
+                                <input [(ngModel)]="item.largeur" class="w-100 p-0 text-center no-borders" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-100 text-center overflow-hidden">{{(this.calculateAreaInSquareMeters(item.hauteur , item.largeur)).toFixed(2)}}</div>
+                        </td>
+                        <td>
+                            <div class="w-100 overflow-hidden" >
+                                <input [(ngModel)]="item.price" type="number" class="w-100 p-0 text-center no-borders" />
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-100 overflow-hidden">
+
+                                <input [(ngModel)]="item.quantity" type="number" class="w-100 p-0 text-center no-borders" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-100 overflow-hidden" >
+                                <input [(ngModel)]="item.remise" type="number" class="w-100 p-0 text-center no-borders" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-100 text-center overflow-hidden">{{ ((this.calculateAreaInSquareMeters(item.hauteur , item.largeur)) * item.price).toFixed(2) }}</div>
+                        </td>
+                        <td>
+                            <div class="w-100 text-center overflow-hidden">{{ ((((this.calculateAreaInSquareMeters(item.hauteur , item.largeur)) * item.price) * item.quantity) - (((this.calculateAreaInSquareMeters(item.hauteur , item.largeur)) * item.price) * item.quantity) * item.remise / 100).toFixed(2) }}</div>
+                        </td>
+                        <td>
+                            <div class="action-btns">
+                                <button (click)="editItem(i)" class="action-btn">
+                                    <img src="assets/pen.png" class="icon" />
+                                </button>
+                                <button (click)="deleteItem(i)" class="action-btn">
+                                    <img src="assets/remove.png" class="icon" />
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="totals">
+            <table border="1">
+                <tr>
+                    <td style="display: contents;">
+                        <div class="bold flex align-items-start h-100 justify-content-around">
+                            <!-- <div>Poids Total en KG : {{this.getPoidsTotal()}}</div> -->
+                            <div>Métrage Total en M2 : {{this.getMetrageM2().toFixed(2)}}</div>
+                        </div>
+                    </td>
+                    <td style="width:200px;">
+                        <div>
+                            <table border="1">
+                                <tr>
+                                    <td>
+                                        <div class="w-100 text-left bold">
+                                            Total H.T :
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-100 text-right bold">
+                                        {{this.getTotalHT().toFixed(2)}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="w-100 text-left bold">
+                                        TVA 20% :
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-100 text-right bold">
+                                        {{this.getTotalTVA().toFixed(2)}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="w-100 text-left bold">
+                                        Total T.T.C :
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-100 text-right bold">
+                                        {{this.getTotalTTC().toFixed(2)}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="bold">
+                {{this.generateFrenchText(this.getTotalTTC())}}
+            </div>
+        </div>
+        <div class="crud-btns">
+            
+          
+            <div *ngIf="selectedItemIndex !== null">
+              <button class="primary" (click)="updateItem()">Modifier une ligne</button>
+            </div>
+
+            <button class="primary" (click)="addItem()">Ajouter une ligne</button>
+        </div>
+    </div>
+    <div class="footer-btns">
+        <button class="primary" (click)="init()">Vider</button>
+        <button class="primary" (click)="sendData()">Imprimer</button>
+    </div>  
+  </div>
+</div>
